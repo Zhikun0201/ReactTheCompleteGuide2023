@@ -1,5 +1,6 @@
 import Card from "../UI/Card";
 import ExpenseItem from "./ExpenseItem";
+import ExpensesFilter from "../ExpensesFilter/ExpensesFilter";
 import "./Expenses.css";
 
 function Expenses(props) {
@@ -12,6 +13,9 @@ function Expenses(props) {
     />
   ));
 
-  return <Card className="expenses">{items}</Card>;
+  return <Card className="expenses">
+    <ExpensesFilter onChangeFilter={(value)=>{console.log(value)}}/>
+    {items}
+  </Card>;
 }
 export default Expenses;
