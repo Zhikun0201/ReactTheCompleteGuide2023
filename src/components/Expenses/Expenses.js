@@ -24,19 +24,17 @@ function Expenses(props) {
   };
 
 
-  const items = props.list.map((item) => (
-    <ExpenseItem
-      key={item.id}
-      title={item.title}
-      date={item.date}
-      amount={item.amount}
-    />
-  ));
-
   return <Card className="expenses">
     <p>Data for years {filterInfoText} is hidden.</p>
     <ExpensesFilter selectedYear={filteredYear} onChangeFilter={filterChangeHandler} />
-    {items}
+    {props.expenses.map(expense =>
+      <ExpenseItem
+        key={expense.id}
+        title={expense.title}
+        date={expense.date}
+        amount={expense.amount}
+      />
+    )}
   </Card>;
 }
 export default Expenses;

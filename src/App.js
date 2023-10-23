@@ -3,7 +3,6 @@ import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
 function App() {
-  // lesson 80
   const addExpenseHandler = expense => {
     console.log("In App.js");
     console.log(expense);
@@ -34,7 +33,7 @@ function App() {
   return (
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses list={expenses} />
+      <Expenses expenses={expenses} />
     </div>
   );
 }
