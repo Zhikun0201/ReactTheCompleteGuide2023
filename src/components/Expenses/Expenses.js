@@ -20,7 +20,8 @@ function Expenses(props) {
     <ExpensesFilter
       onChangeFilter={filterChangeHandler}
     />
-    {
+    {filteredExpenses.length === 0 && (<p>没有数据</p>)}
+    {filteredExpenses.length > 0 && (
       filteredExpenses.map((expense) => (
         <ExpenseItem
           key={expense.id}
@@ -28,7 +29,9 @@ function Expenses(props) {
           date={expense.date}
           amount={expense.amount}
         />
-      ))
+      )))}
+    {
+
     };
   </Card>;
 }
