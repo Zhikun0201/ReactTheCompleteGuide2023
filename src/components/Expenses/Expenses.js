@@ -3,6 +3,7 @@ import ExpensesFilter from "../ExpensesFilter/ExpensesFilter";
 import Card from "../UI/Card";
 import ExpenseItem from "./ExpenseItem";
 import "./Expenses.css";
+import ExpensesList from "./ExpensesList";
 
 function Expenses(props) {
   const [filteredYear, setFilteredYear] = useState("None");
@@ -20,19 +21,7 @@ function Expenses(props) {
     <ExpensesFilter
       onChangeFilter={filterChangeHandler}
     />
-    {filteredExpenses.length === 0 && (<p>没有数据</p>)}
-    {filteredExpenses.length > 0 && (
-      filteredExpenses.map((expense) => (
-        <ExpenseItem
-          key={expense.id}
-          title={expense.title}
-          date={expense.date}
-          amount={expense.amount}
-        />
-      )))}
-    {
-
-    };
+    <ExpensesList items={filteredExpenses} />
   </Card>;
 }
 export default Expenses;
