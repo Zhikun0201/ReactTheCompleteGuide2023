@@ -3,6 +3,8 @@ import ExpenseForm from "./ExpenseForm";
 import "./NewExpense.css";
 
 const NewExpense = (props) => {
+  const [showForm, setShowForm] = React.useState(false);
+
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
       ...enteredExpenseData,
@@ -11,9 +13,20 @@ const NewExpense = (props) => {
     props.onAddExpense(expenseData);
   }
 
+  if (showForm) {
+    return (
+      <div className="new-expense">
+        <ExpenseForm
+          onSaveExpenseData={saveExpenseDataHandler}
+          onStopEditing={() => setShowForm(false)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="new-expense">
-      <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} />
+      <button onClick={() => setShowForm(true)}>添加</button>
     </div>
   );
 };

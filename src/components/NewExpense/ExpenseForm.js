@@ -4,7 +4,7 @@ import "./ExpenseForm.css";
 const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredDate, setEnteredDate] = useState(new Date().toISOString().slice(0, 10));
 
   const titleChangeHandler = (event) => {
     setEnteredTitle(event.target.value);
@@ -29,6 +29,7 @@ const ExpenseForm = (props) => {
     setEnteredTitle('');
     setEnteredAmount('');
     setEnteredDate('');
+    props.onStopEditing();
   };
 
   return (
@@ -54,6 +55,7 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={props.onStopEditing}>取消</button>
         <button type="submit">添加</button>
       </div>
     </form>
