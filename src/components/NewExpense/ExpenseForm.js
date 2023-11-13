@@ -22,7 +22,7 @@ const ExpenseForm = (props) => {
     event.preventDefault();
     const expencseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount, // Fix a small bug: When adding multiple values, those values are added as strings instead of numbers.
       date: new Date(enteredDate)
     };
     props.onSaveExpenseData(expencseData);
