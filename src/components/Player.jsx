@@ -1,16 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Player() {
-  const [name, setName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const playerName = useRef();
 
-  function handleChange(event) {
-    setSubmitted(false);
-    setName(event.target.value);
-  }
+  const [name, setName] = useState("");
 
   function handleSubmit(event) {
-    setSubmitted(true);
+    setName(playerName.current.value)
   }
 
   function handleKeyDown(event) {
@@ -21,9 +17,9 @@ export default function Player() {
 
   return (
     <section id="player">
-      <h2>Welcome {submitted ? name : "Unknow Entity"}</h2>
+      <h2>Welcome {name ?? "Unknow Entity"}</h2>
       <p>
-        <input type="text" onChange={handleChange} value={name} onKeyDown={handleKeyDown}/>
+        <input type="text" ref={playerName} onKeyDown={handleKeyDown} />
         <button onClick={handleSubmit}>Set Name</button>
       </p>
     </section>
