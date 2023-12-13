@@ -7,6 +7,7 @@ export default function Player() {
 
   function handleSubmit(event) {
     setName(playerName.current.value)
+    playerName.current.value = "";
   }
 
   function handleKeyDown(event) {
