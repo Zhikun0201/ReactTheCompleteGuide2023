@@ -4,7 +4,7 @@ import NewProject from "./components/sidebar/NewProject";
 import NoProjectSelected from "./components/sidebar/NoProjectSelected";
 import ProjectSidebar from "./components/sidebar/ProjectSidebar";
 function App() {
-  
+
   const [projectsState, setProjectState] = useState({
     selectedProjectId: undefined,
     projects: [],
@@ -24,7 +24,7 @@ function App() {
     setProjectState(prevState => {
       const newProject = {
         ...projectData,
-        id: new Date.now("ms").toISOString(),
+        id: new Date().toISOString(),
       }
 
       return {
@@ -34,7 +34,7 @@ function App() {
     });
   }
 
-  // console.log(projectsState);
+  console.log(projectsState);
 
   let content;
 
