@@ -1,8 +1,9 @@
-import { useState } from "react";
+import {useState} from "react";
 
 import NewProject from "./components/sidebar/NewProject";
 import NoProjectSelected from "./components/sidebar/NoProjectSelected";
 import ProjectSidebar from "./components/sidebar/ProjectSidebar";
+
 function App() {
 
   const [projectsState, setProjectState] = useState({
@@ -22,13 +23,15 @@ function App() {
 
   function handleAddProject(projectData) {
     setProjectState(prevState => {
+      const projectId = new Date().toISOString();
       const newProject = {
         ...projectData,
-        id: new Date().toISOString(),
+        id: projectId,
       }
 
       return {
         ...prevState,
+        selectedProjectId: undefined, // FIXME
         projects: [...prevState.projects, newProject],
       }
     });
@@ -39,14 +42,17 @@ function App() {
   let content;
 
   if (projectsState.selectedProjectId === null) {
-    content = <NewProject onAdd={handleAddProject} />;
+    content = <NewProject onAdd={handleAddProject}/>;
   } else if (projectsState.selectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handleStartProject} />;
+    content = <NoProjectSelected onStartAddProject={handleStartProject}/>;
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectSidebar onStartAddProject={handleStartProject} />
+      <ProjectSidebar
+        onStartAddProject={handleStartProject}
+        projects={projectsState.projects}
+      />
       {content}
     </main>
   );
