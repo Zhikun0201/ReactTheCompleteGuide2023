@@ -2,7 +2,7 @@ import {useRef} from "react";
 import InputPage from "./Input.jsx";
 import Modal from "./Modal.jsx";
 
-export default function NewProject({onAdd}) {
+export default function NewProject({onAdd, onCancel}) {
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
@@ -28,15 +28,20 @@ export default function NewProject({onAdd}) {
     onAdd(projectData);
   }
 
+  function handleCancel() {
+    onCancel();
+  }
+
   return (<div className="w-[35rem] mt-16">
     <Modal ref={modal} buttonLabel="Okay">
-      <h2 className="text-2xl font-bold text-stone-800">Invalid input</h2>
-      <p className="text-stone-800">Please enter valid data!</p>
+      <h2 className="text-xl font-bold text-stone-700 my-4">Invalid input</h2>
+      <p className="text-stone-400 mb-4">Please enter valid data!</p>
     </Modal>
     <menu className="flex items-center justify-end gap-4 my-4">
       <li>
         <button
           className="text-stone-800 hover:text-stone-950"
+          onClick={handleCancel}
         >
           Cancel
         </button>
