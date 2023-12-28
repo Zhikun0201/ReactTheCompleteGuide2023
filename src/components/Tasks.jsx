@@ -1,9 +1,13 @@
 import NewTask from "./NewTask.jsx";
 import {useState} from "react";
+import Modal from "./Modal.jsx";
 
 export default function Tasks({tasks, onAddTask, onDeleteTask}) {
 
   function handleAddTask(text) {
+    if (!text) {
+      return;
+    }
     console.log(text);
     onAddTask(text);
   }
