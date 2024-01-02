@@ -20,11 +20,10 @@ function App() {
       const existingCartItem = updatedItems[existingCartItemIndex];
 
       if (existingCartItem) {
-        const updatedItem = {
+        updatedItems[existingCartItemIndex] = {
           ...existingCartItem,
           quantity: existingCartItem.quantity + 1,
         };
-        updatedItems[existingCartItemIndex] = updatedItem;
       } else {
         const product = DUMMY_PRODUCTS.find((product) => product.id === id);
         updatedItems.push({
@@ -69,6 +68,7 @@ function App() {
   const ctxValue = {
     items: shoppingCart.items,
     addItemToCart: handleAddItemToCart,
+    updateItemQuantity: handleUpdateCartItemQuantity,
   }
 
   return (
@@ -76,10 +76,7 @@ function App() {
       <CartContext.Provider
         value={ctxValue}
       >
-        <Header
-          cart={shoppingCart}
-          onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
-        />
+        <Header />
         <Shop onAddItemToCart={handleAddItemToCart}/>
       </CartContext.Provider>
     </>

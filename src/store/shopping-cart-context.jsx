@@ -4,4 +4,6 @@ export const CartContext = createContext({
   items: [],
   addItemToCart: (item) => {
   },
+  updateItemQuantity: (productId, amount) => {
+  }
 });
