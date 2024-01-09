@@ -1,10 +1,12 @@
-import { useRef, useState, useCallback } from 'react';
+import {useRef, useState, useCallback} from 'react';
 
 import Places from './components/Places.jsx';
 import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
+
+import {updateUserPlaces} from "./http.js";
 
 function App() {
   const selectedPlace = useRef();
@@ -32,6 +34,12 @@ function App() {
       }
       return [selectedPlace, ...prevPickedPlaces];
     });
+
+    const response = updateUserPlaces([selectedPlace, ...userPlaces])
+      .catch((error) => {
+        console.error(error);
+      })
+    console.log(response);
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
@@ -52,7 +60,7 @@ function App() {
       </Modal>
 
       <header>
-        <img src={logoImg} alt="Stylized globe" />
+        <img src={logoImg} alt="Stylized globe"/>
         <h1>PlacePicker</h1>
         <p>
           Create your personal collection of places you would like to visit or
@@ -67,7 +75,7 @@ function App() {
           onSelectPlace={handleStartRemovePlace}
         />
 
-        <AvailablePlaces onSelectPlace={handleSelectPlace} />
+        <AvailablePlaces onSelectPlace={handleSelectPlace}/>
       </main>
     </>
   );
