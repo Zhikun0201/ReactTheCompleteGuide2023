@@ -9,6 +9,7 @@ export async function fetchAvailablePlaces() {
 }
 
 export async function updateUserPlaces(places) {
+  console.log(places)
   const response = await fetch('http://localhost:3000/user-places', {
     method: 'PUT',
     body: JSON.stringify({places}),

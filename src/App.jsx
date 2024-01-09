@@ -7,12 +7,13 @@ import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
 
 import {updateUserPlaces} from "./http.js";
+import Error from "./components/Error.jsx";
 
 function App() {
   const selectedPlace = useRef();
 
   const [userPlaces, setUserPlaces] = useState([]);
-
+  const [updatePlacesError, setUpdatePlacesError] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function handleStartRemovePlace(place) {
@@ -37,7 +38,8 @@ function App() {
 
     const response = updateUserPlaces([selectedPlace, ...userPlaces])
       .catch((error) => {
-        console.error(error);
+        setUserPlaces(userPlaces);
+        setUpdatePlacesError(error.message || "Something went wrong!");
       })
     console.log(response);
   }
@@ -47,11 +49,30 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
     );
 
+    try {
+      await updateUserPlaces(
+        userPlaces.filter(
+          (place) => place.id !== selectedPlace.current.id
+        ));
+    } catch (error) {
+      setUserPlaces(userPlaces);
+      setUpdatePlacesError(error.message || "Something went wrong!");
+    }
+
     setModalIsOpen(false);
-  }, []);
+  }, [userPlaces]);
 
   return (
     <>
+      <Modal open={!!updatePlacesError} onClose={() => setUpdatePlacesError(null)}>
+        {updatePlacesError && (
+          <Error
+            title="Could not update your places"
+            message={updatePlacesError}
+            onConfirm={() => setUpdatePlacesError(null)}
+          />
+        )}
+      </Modal>
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
