@@ -9,6 +9,14 @@ export default function Quiz() {
 
   const activeQuestionIndex = userAnswers.length;
   const quizIsFinished = activeQuestionIndex === QUESTIONS.length;
+  const handleSelectAnswer = useCallback(function handleSelectAnswer(answer) {
+    setUserAnswers((prevState) => [...prevState, answer])
+  }, [])
+
+  const handleSkipAnswer = useCallback(() => {
+    handleSelectAnswer(null)
+  }, [handleSelectAnswer]);
+
   if (quizIsFinished) {
     return (
       <div id="summary">
@@ -21,19 +29,12 @@ export default function Quiz() {
   const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
   shuffledAnswers.sort(() => Math.random() - 0.5);
 
-  const handleSelectAnswer = useCallback(function handleSelectAnswer(answer) {
-    setUserAnswers((prevState) => [...prevState, answer])
-  }, [])
-
-  const handleSkipAnswer = useCallback(() => {
-    handleSelectAnswer(null)
-  }, [handleSelectAnswer]);
-
 
   return (
     <div id="quiz">
       <div id="question">
         <QuestionTimer
+          key={activeQuestionIndex}
           timeout={5 * 1000}
           onTimeout={handleSkipAnswer}
         />
