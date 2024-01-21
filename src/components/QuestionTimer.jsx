@@ -1,9 +1,21 @@
-import {useEffect, useState} from "react";
+import {useEffect, useImperativeHandle, useRef, useState} from "react";
 
 const QUESTION_TIMER_INTERVAL = 5 * 1000;
 
-export default function QuestionTimer({timeout = QUESTION_TIMER_INTERVAL, onTimeout}) {
+export default function QuestionTimer(
+  {
+    timeout,
+    onTimeout,
+    mode
+  }) {
   const [timer, setTimer] = useState(timeout);
+  const progress = useRef();
+
+  useImperativeHandle(progress, () => ({
+    stop() {
+      setTimer(0);
+    }
+  }));
 
   useEffect(() => {
     const timerOuter = setTimeout(() => {
@@ -26,6 +38,12 @@ export default function QuestionTimer({timeout = QUESTION_TIMER_INTERVAL, onTime
   }, []);
 
   return (
-    <progress id="question-timer" value={timer} max={timeout}></progress>
+    <progress
+      ref={progress}
+      id="question-timer"
+      value={timer}
+      max={timeout}
+      className={mode}
+    />
   )
 }
