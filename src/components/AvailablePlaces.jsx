@@ -23,40 +23,11 @@ async function fetchSortedPlaces() {
 }
 
 export default function AvailablePlaces({ onSelectPlace }) {
-
-  /** SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch
-    const [isFetching, setIsFetching] = useState(false);
-    const [availablePlaces, setAvailablePlaces] = useState([]);
-    const [error, setError] = useState();
-  SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch **/
-
   const {
     isFetching,
     error,
     fetchedData: availablePlaces,
   } = useFetch(fetchSortedPlaces, []);
-
-  /** SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch
-    // useEffect(() => {
-    //   async function fetchPlaces() {
-    //     setIsFetching(true);
-  
-    //     try {
-    //       const places = await fetchAvailablePlaces();
-  
-  
-    //     } catch (error) {
-    //       setError({
-    //         message:
-    //           error.message || 'Could not fetch places, please try again later.',
-    //       });
-    //       setIsFetching(false);
-    //     }
-    //   }
-  
-    //   fetchPlaces();
-    // }, []);
-  SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch **/
 
   if (error) {
     return <Error title="An error occurred!" message={error.message} />;
