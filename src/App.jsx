@@ -1,13 +1,13 @@
-import { useRef, useState, useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-import Places from './components/Places.jsx';
-import Modal from './components/Modal.jsx';
-import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
-import { fetchUserPlaces, updateUserPlaces } from './http.js';
+import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import Error from './components/Error.jsx';
+import Modal from './components/Modal.jsx';
+import Places from './components/Places.jsx';
 import { useFetch } from './hooks/useFetch.js';
+import { fetchUserPlaces, updateUserPlaces } from './http.js';
 
 function App() {
   const selectedPlace = useRef();
