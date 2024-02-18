@@ -1,42 +1,62 @@
-import { useState, useEffect } from 'react';
 
-import Places from './Places.jsx';
-import Error from './Error.jsx';
-import { sortPlacesByDistance } from '../loc.js';
+import { useFetch } from '../hooks/useFetch.js';
 import { fetchAvailablePlaces } from '../http.js';
+import { sortPlacesByDistance } from '../loc.js';
+import Error from './Error.jsx';
+import Places from './Places.jsx';
+
+async function fetchSortedPlaces() {
+  const places = await fetchAvailablePlaces();
+
+  return new Promise((resolve) => {
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(
+        places,
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+      resolve(sortedPlaces);
+    });
+  });
+}
 
 export default function AvailablePlaces({ onSelectPlace }) {
-  const [isFetching, setIsFetching] = useState(false);
-  const [availablePlaces, setAvailablePlaces] = useState([]);
-  const [error, setError] = useState();
 
-  useEffect(() => {
-    async function fetchPlaces() {
-      setIsFetching(true);
+  /** SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch
+    const [isFetching, setIsFetching] = useState(false);
+    const [availablePlaces, setAvailablePlaces] = useState([]);
+    const [error, setError] = useState();
+  SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch **/
 
-      try {
-        const places = await fetchAvailablePlaces();
+  const {
+    isFetching,
+    error,
+    fetchedData: availablePlaces,
+  } = useFetch(fetchSortedPlaces, []);
 
-        navigator.geolocation.getCurrentPosition((position) => {
-          const sortedPlaces = sortPlacesByDistance(
-            places,
-            position.coords.latitude,
-            position.coords.longitude
-          );
-          setAvailablePlaces(sortedPlaces);
-          setIsFetching(false);
-        });
-      } catch (error) {
-        setError({
-          message:
-            error.message || 'Could not fetch places, please try again later.',
-        });
-        setIsFetching(false);
-      }
-    }
-
-    fetchPlaces();
-  }, []);
+  /** SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch
+    // useEffect(() => {
+    //   async function fetchPlaces() {
+    //     setIsFetching(true);
+  
+    //     try {
+    //       const places = await fetchAvailablePlaces();
+  
+  
+    //     } catch (error) {
+    //       setError({
+    //         message:
+    //           error.message || 'Could not fetch places, please try again later.',
+    //       });
+    //       setIsFetching(false);
+    //     }
+    //   }
+  
+    //   fetchPlaces();
+    // }, []);
+  SHOULD BE REMOVED BECAUSE OF THE USE OF useFetch **/
 
   if (error) {
     return <Error title="An error occurred!" message={error.message} />;
