@@ -7,7 +7,12 @@ export default function Login() {
       password : ''
     })
 
-  const emailIsValid = enteredValues.email !== "" && !enteredValues.email.includes('@');
+  const [didEdit, setDidEdit] = useState({
+                                           email : false,
+                                           password : false
+                                         })
+
+  const emailIsValid = didEdit.email && !enteredValues.email.includes('@');
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -19,6 +24,17 @@ export default function Login() {
       ...prevValues,
       // 使用了计算属性名
       [identifier] : value
+    }))
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier] : false
+    }))
+  }
+
+  function handleEmailBlur(identifier) {
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier] : true
     }))
   }
 
@@ -33,6 +49,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleEmailBlur('email')}
             onChange={(event) => handleInputChange('email', event.target.value)}
             value={enteredValues.email}
           />
